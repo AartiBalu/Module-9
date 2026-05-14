@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 9 — Corporate Finance</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=JetBrains+Mono:wght@400;500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1209;
+    --ink-light: #3d2f1a;
+    --accent: #8b1a1a;
+    --bg: #faf7f2;
+    --bg-warm: #f5f0e8;
+    --rule: #c8b99a;
+    --rule-light: #e8dfd0;
+    --margin: #6b5a3e;
+    --box-bg: #f0ebe0;
+    --note-bg: #fdf6e3;
+    --green: #1a5c2e;
+    --blue: #1a3a5c;
+    --font-main: 'EB Garamond', 'Crimson Pro', Georgia, serif;
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-main);
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1.75;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 60px 80px 80px 80px;
+    position: relative;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 700px) {
+    .page { padding: 28px 18px 48px 18px; }
+    .cover-title { font-size: 32px; }
+    .cover-subtitle { font-size: 18px; }
+    .cover-meta { flex-direction: column; gap: 14px; }
+    .diagram-container { padding: 12px; }
+    svg { max-width: 100%; height: auto; }
+  }
+
+  /* COVER */
+  .cover {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-bottom: 2px solid var(--rule);
+    padding-bottom: 60px;
+    margin-bottom: 60px;
+  }
+
+  .cover-institution {
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--margin);
+    margin-bottom: 32px;
+  }
+
+  .cover-rule {
+    width: 60px;
+    height: 3px;
+    background: var(--accent);
+    margin-bottom: 32px;
+  }
+
+  .cover-title {
+    font-size: 44px;
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 14px;
+    letter-spacing: -0.5px;
+  }
+
+  .cover-subtitle {
+    font-size: 22px;
+    color: var(--ink-light);
+    font-style: italic;
+    margin-bottom: 40px;
+  }
+
+  .cover-meta {
+    font-size: 13px;
+    color: var(--margin);
+    letter-spacing: 0.1em;
+    border-top: 1px solid var(--rule);
+    padding-top: 22px;
+    display: flex;
+    gap: 40px;
+  }
+
+  .cover-meta span { display: flex; flex-direction: column; }
+  .cover-meta .label { text-transform: uppercase; font-size: 10px; letter-spacing: 0.2em; margin-bottom: 4px; }
+  .cover-meta .value { font-size: 14px; color: var(--ink-light); font-style: italic; }
+
+  /* TOC */
+  .toc {
+    margin-bottom: 60px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .toc-title {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--margin);
+    margin-bottom: 20px;
+  }
+
+  .toc-entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 5px 0;
+    border-bottom: 1px dotted var(--rule-light);
+    font-size: 15px;
+    color: var(--ink-light);
+  }
+
+  .toc-entry .toc-num { color: var(--accent); min-width: 28px; font-size: 13px; }
+  .toc-entry .toc-name { flex: 1; padding: 0 12px; }
+  .toc-entry .toc-dots { flex: 1; border-bottom: 1px dotted var(--rule); margin: 0 8px; position: relative; top: -4px; }
+
+  /* SECTIONS */
+  .section { margin-bottom: 56px; padding-top: 40px; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .section-num { font-size: 13px; color: var(--accent); letter-spacing: 0.05em; white-space: nowrap; }
+  .section-title { font-size: 26px; font-weight: 600; color: var(--ink); letter-spacing: -0.3px; }
+
+  .subsection { margin-bottom: 32px; }
+
+  .subsection-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink-light);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .subsection-title .sub-num { font-size: 13px; color: var(--accent); min-width: 32px; }
+
+  p { margin-bottom: 14px; text-align: justify; hyphens: auto; }
+
+  /* LISTS */
+  ul.note-list { list-style: none; margin: 12px 0 18px 0; padding: 0; }
+  ul.note-list li { padding: 4px 0 4px 24px; position: relative; color: var(--ink-light); font-size: 16px; }
+  ul.note-list li::before { content: '—'; position: absolute; left: 0; color: var(--accent); font-weight: 600; }
+  ul.note-list.circle li::before { content: '○'; font-size: 12px; top: 2px; }
+
+  ol.note-list-num { list-style: none; margin: 12px 0 18px 0; padding: 0; counter-reset: note-counter; }
+  ol.note-list-num li { padding: 6px 0 6px 36px; position: relative; color: var(--ink-light); font-size: 16px; counter-increment: note-counter; }
+  ol.note-list-num li::before { content: '(' counter(note-counter) ')'; position: absolute; left: 0; color: var(--accent); font-size: 13px; font-weight: 600; font-family: var(--font-mono); }
+
+  /* BOXES */
+  .box { background: var(--box-bg); border-left: 3px solid var(--accent); padding: 18px 22px; margin: 20px 0; font-size: 16px; }
+  .box-title { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; font-weight: 600; }
+  .box.theorem { border-color: var(--blue); background: #f0f4f8; }
+  .box.theorem .box-title { color: var(--blue); }
+  .box.example { border-color: var(--green); background: #f0f6f2; }
+  .box.example .box-title { color: var(--green); }
+  .box.remark { border-color: var(--margin); background: var(--note-bg); }
+  .box.remark .box-title { color: var(--margin); }
+
+  /* FORMULA */
+  .formula {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    background: var(--bg-warm);
+    border: 1px solid var(--rule);
+    padding: 14px 20px;
+    margin: 16px 0;
+    text-align: center;
+    color: var(--blue);
+    letter-spacing: 0.03em;
+    overflow-x: auto;
+  }
+
+  .formula .result { font-weight: 700; color: var(--accent); font-size: 16px; }
+
+  /* TABLE */
+  table.note-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 15px; }
+  table.note-table th { background: var(--ink); color: var(--bg); padding: 8px 14px; text-align: left; font-weight: 500; font-size: 13px; letter-spacing: 0.05em; }
+  table.note-table td { padding: 8px 14px; border-bottom: 1px solid var(--rule-light); color: var(--ink-light); }
+  table.note-table tr:nth-child(even) td { background: var(--bg-warm); }
+
+  /* DIAGRAM */
+  .diagram-container { margin: 24px 0; padding: 24px; background: var(--bg-warm); border: 1px solid var(--rule); text-align: center; overflow-x: auto; }
+  .diagram-title { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--margin); margin-bottom: 18px; }
+  svg text { font-family: var(--font-main); }
+
+  .kw { font-style: italic; color: var(--accent); font-weight: 500; }
+  em { font-style: italic; color: var(--ink-light); }
+  strong { font-weight: 700; color: var(--ink); }
+
+  .footnote { font-size: 13px; color: var(--margin); border-top: 1px solid var(--rule); margin-top: 40px; padding-top: 14px; font-style: italic; }
+
+  hr.section-break { border: none; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+  /* QUIZ */
+  .quiz-section { margin-top: 56px; padding-top: 40px; border-top: 2px solid var(--ink); }
+  .quiz-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 28px; }
+  .quiz-label { font-size: 13px; color: var(--accent); letter-spacing: 0.05em; white-space: nowrap; }
+  .quiz-title { font-size: 26px; font-weight: 600; color: var(--ink); }
+
+  .quiz-q { margin-bottom: 32px; }
+  .quiz-q-text { font-size: 17px; color: var(--ink); margin-bottom: 14px; font-weight: 500; line-height: 1.6; }
+  .quiz-q-num { color: var(--accent); font-family: var(--font-mono); font-size: 13px; margin-right: 6px; }
+
+  .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+
+  .quiz-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    border: 1.5px solid var(--rule);
+    border-radius: 4px;
+    background: var(--bg);
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--ink-light);
+    transition: border-color 0.18s, background 0.18s;
+    text-align: left;
+    width: 100%;
+    font-family: var(--font-main);
+    line-height: 1.5;
+  }
+
+  .quiz-option:hover { border-color: var(--accent); background: var(--bg-warm); }
+  .quiz-option .opt-letter { font-family: var(--font-mono); font-size: 12px; color: var(--accent); font-weight: 600; min-width: 18px; padding-top: 2px; }
+
+  .quiz-option.correct { border-color: var(--green); background: #f0f6f2; color: var(--green); }
+  .quiz-option.correct .opt-letter { color: var(--green); }
+  .quiz-option.wrong { border-color: var(--accent); background: #fdf0f0; color: var(--accent); }
+  .quiz-option.wrong .opt-letter { color: var(--accent); }
+  .quiz-option.reveal-correct { border-color: var(--green); background: #f0f6f2; color: var(--green); }
+  .quiz-option.reveal-correct .opt-letter { color: var(--green); }
+  .quiz-option:disabled { cursor: default; }
+
+  .quiz-feedback { margin-top: 12px; font-size: 15px; padding: 10px 14px; border-radius: 3px; display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct { background: #f0f6f2; color: var(--green); border-left: 3px solid var(--green); }
+  .quiz-feedback.wrong { background: #fdf0f0; color: var(--accent); border-left: 3px solid var(--accent); }
+
+  .quiz-reset {
+    margin-top: 32px;
+    padding: 12px 28px;
+    background: var(--ink);
+    color: var(--bg);
+    border: none;
+    font-family: var(--font-main);
+    font-size: 15px;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    border-radius: 3px;
+    display: block;
+  }
+  .quiz-reset:hover { background: var(--accent); }
+
+  .quiz-score { margin-top: 24px; font-size: 16px; color: var(--ink-light); display: none; font-style: italic; }
+  .quiz-score.show { display: block; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- COVER -->
+  <div class="cover">
+    <div class="cover-institution">Summer Finance Course &nbsp;·&nbsp; Module 9</div>
+    <div class="cover-rule"></div>
+    <div class="cover-title">Corporate Finance</div>
+    <div class="cover-subtitle">Capital Budgeting, NPV &amp; Objectives of the Financial Manager</div>
+    <div class="cover-meta">
+      <span><span class="label">Level</span><span class="value">Introductory / Undergraduate</span></span>
+      <span><span class="label">Topics</span><span class="value">Corporate Decisions, Cost of Capital, NPV, Firm Objectives</span></span>
+      <span><span class="label">Format</span><span class="value">Lecture Notes</span></span>
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <div class="toc-entry"><span class="toc-num">1</span><span class="toc-name">Overview &amp; Module Flow</span><span class="toc-dots"></span></div>
+    <div class="toc-entry"><span class="toc-num">2</span><span class="toc-name">Corporate Financial Decisions</span><span class="toc-dots"></span></div>
+    <div class="toc-entry"><span class="toc-num">3</span><span class="toc-name">Capital Budgeting &amp; Opportunity Cost of Capital</span><span class="toc-dots"></span></div>
+    <div class="toc-entry"><span class="toc-num">4</span><span class="toc-name">Net Present Value (NPV)</span><span class="toc-dots"></span></div>
+    <div class="toc-entry"><span class="toc-num">5</span><span class="toc-name">Objectives of the Financial Manager</span><span class="toc-dots"></span></div>
+    <div class="toc-entry"><span class="toc-num">6</span><span class="toc-name">Market Value Balance Sheet</span><span class="toc-dots"></span></div>
+    <div class="toc-entry"><span class="toc-num">✦</span><span class="toc-name">Quick Quiz</span><span class="toc-dots"></span></div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">§ 1</span>
+      <span class="section-title">Overview &amp; Module Flow</span>
+    </div>
+
+    <p>This module covers <strong>Corporate Finance</strong> — how firms make investment and financing decisions. The four main topics are:</p>
+
+    <ol class="note-list-num">
+      <li>Corporate Financial Decisions</li>
+      <li>Opportunity Cost of Capital</li>
+      <li>Net Present Value (NPV)</li>
+      <li>Objectives of the Financial Manager</li>
+    </ol>
+
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-num">1.1</span> Module Flow</div>
+      <table class="note-table">
+        <thead><tr><th>Topic</th><th>Coverage</th></tr></thead>
+        <tbody>
+          <tr><td><strong>A. Investment</strong> — Capital Budgeting &amp; Real Options</td><td>Will be covered in this course</td></tr>
+          <tr><td><strong>B. Financing</strong></td><td>2nd course</td></tr>
+          <tr><td><strong>C. Risk Management</strong></td><td>2nd course</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">§ 2</span>
+      <span class="section-title">Corporate Financial Decisions</span>
+    </div>
+
+    <p>The firm's balance sheet frames the two key decision areas:</p>
+
+    <div class="diagram-container">
+      <div class="diagram-title">Figure 2.1 — Balance Sheet Decision Framework</div>
+      <svg width="420" height="120" viewBox="0 0 420 120">
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#1a1209"/>
+          </marker>
+        </defs>
+        <!-- T-shape -->
+        <line x1="60" y1="20" x2="360" y2="20" stroke="#1a1209" stroke-width="1.5"/>
+        <line x1="210" y1="20" x2="210" y2="110" stroke="#1a1209" stroke-width="1.5"/>
+        <!-- Labels -->
+        <text x="130" y="14" text-anchor="middle" font-size="12" fill="#1a1209" font-weight="bold">Assets</text>
+        <text x="290" y="14" text-anchor="middle" font-size="12" fill="#1a1209" font-weight="bold">Liabilities</text>
+        <text x="130" y="55" text-anchor="middle" font-size="13" fill="#1a3a5c">Real Investment</text>
+        <text x="290" y="48" text-anchor="middle" font-size="12" fill="#8b1a1a">Financing</text>
+        <text x="290" y="65" text-anchor="middle" font-size="12" fill="#8b1a1a">Payout</text>
+        <text x="290" y="82" text-anchor="middle" font-size="12" fill="#8b1a1a">Risk Management</text>
+        <!-- Arrow down from assets -->
+        <line x1="130" y1="65" x2="130" y2="95" stroke="#1a3a5c" stroke-width="1.2" marker-end="url(#arr)"/>
+        <text x="130" y="110" text-anchor="middle" font-size="11" fill="#1a3a5c" font-style="italic">Capital Budgeting</text>
+      </svg>
+    </div>
+
+    <ul class="note-list">
+      <li><strong>Real Investment (Assets side)</strong> — which assets to acquire; addressed through capital budgeting.</li>
+      <li><strong>Financing, Payout &amp; Risk Management (Liabilities side)</strong> — how to fund assets and return value to shareholders.</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">§ 3</span>
+      <span class="section-title">Capital Budgeting &amp; Opportunity Cost of Capital</span>
+    </div>
+
+    <p><span class="kw">Capital budgeting</span> is how firms make investment decisions — i.e. how to make investment decisions.</p>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-num">3.1</span> Valuation of a Project</div>
+      <p>The <span class="kw">opportunity cost of capital</span> is the expected rate of return offered by equivalent investments in the market — the benchmark for evaluating any project.</p>
+
+      <ul class="note-list circle">
+        <li>If the project yields a return <strong>higher</strong> than the cost of capital → accept it; shareholders are better off taking it.</li>
+        <li>If the project yields a return <strong>lower</strong> than the cost of capital → reject it; shareholders are better off not taking it; they can earn higher returns in the market.</li>
+      </ul>
+
+      <div class="box theorem">
+        <div class="box-title">Key Idea</div>
+        <p>Even if the cost of capital is not given, we can <strong>find what return the market would demand for that level of risk</strong> — that is our cost of capital. For now, assume cost of capital is given; later we learn APT, factor loading, and other approaches to find it.</p>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-num">3.2</span> Discounting Cash Flows</div>
+      <p>The discounted present value of a project's future cash flows (for one year) is:</p>
+
+      <div class="formula">
+        PV = E[CF₁] / (1 + r) &nbsp;&nbsp; where <em>r</em> = cost of capital
+      </div>
+
+      <p>It is the <strong>initial investment</strong>; cost of capital = <em>r</em>.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">§ 4</span>
+      <span class="section-title">Net Present Value (NPV)</span>
+    </div>
+
+    <p>NPV measures the <strong>value created by a project</strong>.</p>
+
+    <div class="formula">
+  NPV &nbsp;=&nbsp; &minus;I &nbsp;+&nbsp; &sum;<sup style="font-size:11px">T</sup><sub style="font-size:11px">t=1</sub> &nbsp;
+  E[CF<sub>t</sub>] / (1 + r)<sup>t</sup>
+</div> &nbsp;&nbsp; = PV of future CFs − Initial Investment
+    </div>
+
+    <div class="box theorem">
+      <div class="box-title">NPV Rule</div>
+      <p><strong>Take the project only if NPV is positive.</strong> A positive NPV means the project creates value — it generates more than the opportunity cost of the capital invested.</p>
+    </div>
+
+
+  <!-- SECTION 5 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">§ 5</span>
+      <span class="section-title">Objectives of the Financial Manager</span>
+    </div>
+
+   <div class="subsection">
+  <div class="subsection-title"><span class="sub-num">5.1</span> What Must a Financial Manager Consider?</div>
+  <ul class="note-list">
+    <li><strong>Timing</strong> — money today is worth more than money in the future. The financial manager must consider when cash flows are received.</li>
+    <li><strong>Risk</strong> — cash flows may be uncertain. Riskier cash flows are worth less and must be discounted accordingly.</li>
+    <li><strong>Accounting performance</strong> — accounting profits do not always reflect actual cash flows due to accruals, depreciation and other accounting adjustments. The financial manager must look beyond reported figures.</li>
+    <li><strong>Long-run value</strong> — decisions should not be optimised for short-term metrics alone. The financial manager must consider value generated over the entire life of the firm.</li>
+  </ul>
+</div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-num">5.2</span> Main Objective</div>
+      <p><strong>Maximise the current market value (CMV) of the firm.</strong></p>
+
+      <p><em>Why CMV?</em></p>
+      <ul class="note-list circle">
+        <li>CMV is an <strong>unbiased financial objective</strong> — you can easily know CMV by observing the stock price.</li>
+        <li>Incorporates present value of <strong>all current and future cash flows</strong>, adjusted for timing and risk.</li>
+        <li>CMV rule is <strong>independent of shareholder differences</strong> — it doesn't matter what consumption or investment needs shareholders have; with the wealth created, they can do whatever they want. It is not the firm's business to satisfy individual needs. But by maximising CMV, the firm helps shareholders meet their goals. This only works if we are maximising <em>current</em> market value.</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-num">5.3</span> Conclusions on the Objective</div>
+      <ul class="note-list">
+        <li><strong>Max CMV of firm.</strong></li>
+        <li>Shareholder differences can be settled in the financial market by trading on their own account — in a frictionless market.</li>
+        <li>Rich, well-functioning, perfect financial markets allow <strong>potential separation of ownership and management</strong> (shareholders vs. CFO/CEO etc.). As long as managers adhere to maximise CMV, no need to be attached to shareholders' views.</li>
+      </ul>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-num">5.4</span> Reality: Markets Are Not Perfect</div>
+      <p>In reality markets are not perfect. There might be <strong>other stakeholders</strong> (bondholders vs. shareholders).</p>
+      <ul class="note-list">
+        <li>Bondholders may look at the <strong>downside of firm</strong> more than the upside — because their payoff is capped.</li>
+        <li><strong>Agency problems</strong> — management may put their best interests first. In this case management is the <em>agent</em> of the principal (shareholders). This is an example of <strong>imperfections in the market</strong>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECTION 6 -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">§ 6</span>
+      <span class="section-title">Market Value Balance Sheet</span>
+    </div>
+
+    <p>The <span class="kw">Market Value Balance Sheet (MVBS)</span> records assets and liabilities at <strong>market values, not book values</strong>.</p>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-num">6.1</span> Example — Cash Used to Build a Factory</div>
+
+      <p><strong>In a regular (book value) balance sheet:</strong> No change in total — just the assets component changes (cash ↓, long-term assets ↑).</p>
+
+      <div class="diagram-container">
+        <div class="diagram-title">Figure 6.1 — Regular Balance Sheet (no change in total)</div>
+        <svg width="380" height="100" viewBox="0 0 380 100">
+          <line x1="40" y1="18" x2="340" y2="18" stroke="#1a1209" stroke-width="1.5"/>
+          <line x1="190" y1="18" x2="190" y2="90" stroke="#1a1209" stroke-width="1.5"/>
+          <text x="115" y="13" text-anchor="middle" font-size="12" fill="#1a1209" font-weight="bold">Assets</text>
+          <text x="265" y="13" text-anchor="middle" font-size="12" fill="#1a1209" font-weight="bold">Liabilities</text>
+          <text x="80" y="48" font-size="13" fill="#8b1a1a">Cash ↓</text>
+          <text x="30" y="75" font-size="13" fill="#1a5c2e">Long-term Assets ↑</text>
+          <text x="265" y="55" text-anchor="middle" font-size="12" fill="#6b5a3e" font-style="italic">unchanged</text>
+        </svg>
+      </div>
+
+      <p><strong>In a Market Value Balance Sheet:</strong> If the NPV of the factory is positive, the assets side increases — and liabilities (equity) must also increase to match.</p>
+
+      <div class="diagram-container">
+        <div class="diagram-title">Figure 6.2 — Market Value Balance Sheet (NPV &gt; 0)</div>
+        <svg width="380" height="120" viewBox="0 0 380 120">
+          <line x1="40" y1="18" x2="340" y2="18" stroke="#1a1209" stroke-width="1.5"/>
+          <line x1="190" y1="18" x2="190" y2="110" stroke="#1a1209" stroke-width="1.5"/>
+          <text x="115" y="13" text-anchor="middle" font-size="12" fill="#1a1209" font-weight="bold">Assets</text>
+          <text x="265" y="13" text-anchor="middle" font-size="12" fill="#1a1209" font-weight="bold">Liabilities</text>
+          <text x="80" y="45" font-size="13" fill="#1a5c2e">Cash</text>
+          <text x="30" y="70" font-size="13" fill="#1a5c2e">Long-term Assets ↑ (NPV &gt; 0)</text>
+          <text x="265" y="60" text-anchor="middle" font-size="13" fill="#1a5c2e">Equity ↑</text>
+          <text x="115" y="100" text-anchor="middle" font-size="11" fill="#6b5a3e" font-style="italic">Assets side ↑</text>
+          <text x="265" y="100" text-anchor="middle" font-size="11" fill="#6b5a3e" font-style="italic">Liabilities side ↑ to match</text>
+        </svg>
+      </div>
+
+      <p>If the CEO decides to pay out to equity, <strong>equity stock price rises by the same amount as NPV</strong>. Market value of stock increases.</p>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title"><span class="sub-num">6.2</span> Example — CEO Dies</div>
+      <p>No change in the regular book balance sheet (the assets don't change in accounting terms).</p>
+      <p>But in the Market Value Balance Sheet — if the previous CEO was great and the replacement is a poor CEO, the <strong>market value of assets falls</strong>, so market value of stocks falls.</p>
+
+      <div class="diagram-container">
+        <div class="diagram-title">Figure 6.3 — Market Value Balance Sheet after CEO change (bad replacement)</div>
+        <svg width="340" height="100" viewBox="0 0 340 100">
+          <line x1="30" y1="18" x2="310" y2="18" stroke="#1a1209" stroke-width="1.5"/>
+          <line x1="170" y1="18" x2="170" y2="90" stroke="#1a1209" stroke-width="1.5"/>
+          <text x="100" y="13" text-anchor="middle" font-size="12" fill="#1a1209" font-weight="bold">Assets</text>
+          <text x="240" y="13" text-anchor="middle" font-size="12" fill="#1a1209" font-weight="bold">Liabilities</text>
+          <text x="40" y="58" font-size="13" fill="#8b1a1a">Long-term Assets ↓</text>
+          <text x="240" y="58" text-anchor="middle" font-size="13" fill="#8b1a1a">Equity ↓</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="subsection">
+  <div class="subsection-title"><span class="sub-num">6.3</span> Example — Firm Issues Debt to Pay Dividend</div>
+
+  <p><strong>Regular balance sheet</strong> — no impact. Debt increases on the liabilities side, but dividend paid reduces equity by the same amount. Total liabilities remain unchanged.</p>
+
+  <div class="diagram-container">
+    <div class="diagram-title">Figure 6.4 — Regular Balance Sheet (Debt issued to pay dividend)</div>
+    <svg width="380" height="110" viewBox="0 0 380 110">
+      <line x1="40" y1="18" x2="340" y2="18" stroke="#1a1209" stroke-width="1.5"/>
+      <line x1="190" y1="18" x2="190" y2="100" stroke="#1a1209" stroke-width="1.5"/>
+      <text x="115" y="13" text-anchor="middle" font-size="12" fill="#1a1209" font-weight="bold">Assets</text>
+      <text x="265" y="13" text-anchor="middle" font-size="12" fill="#1a1209" font-weight="bold">Liabilities</text>
+      <text x="115" y="60" text-anchor="middle" font-size="13" fill="#6b5a3e" font-style="italic">unchanged</text>
+      <text x="240" y="45" font-size="13" fill="#1a5c2e">Debt ↑</text>
+      <text x="230" y="70" font-size="13" fill="#8b1a1a">Equity ↓</text>
+      <text x="265" y="90" text-anchor="middle" font-size="11" fill="#6b5a3e" font-style="italic">net effect: unchanged</text>
+    </svg>
+  </div>
+
+  <p><strong>Market Value Balance Sheet</strong> — it depends. No change or increases, depending on whether markets interpret the debt issuance and dividend as a positive signal of value.</p>
+
+  <div class="diagram-container">
+    <div class="diagram-title">Figure 6.5 — Market Value Balance Sheet (Debt issued to pay dividend)</div>
+    <svg width="380" height="130" viewBox="0 0 380 130">
+      <line x1="40" y1="18" x2="340" y2="18" stroke="#1a1209" stroke-width="1.5"/>
+      <line x1="190" y1="18" x2="190" y2="120" stroke="#1a1209" stroke-width="1.5"/>
+      <text x="115" y="13" text-anchor="middle" font-size="12" fill="#1a1209" font-weight="bold">Assets</text>
+      <text x="265" y="13" text-anchor="middle" font-size="12" fill="#1a1209" font-weight="bold">Liabilities</text>
+      <text x="115" y="70" text-anchor="middle" font-size="13" fill="#6b5a3e" font-style="italic">unchanged</text>
+      <!-- Scenario A -->
+      <text x="200" y="40" font-size="11" fill="#6b5a3e" font-style="italic">Scenario A — No change</text>
+      <text x="240" y="58" font-size="13" fill="#6b5a3e">Debt ↑</text>
+      <text x="230" y="76" font-size="13" fill="#6b5a3e">Equity ↓ (same amt)</text>
+      <!-- Divider -->
+      <line x1="195" y1="88" x2="340" y2="88" stroke="#c8b99a" stroke-width="1" stroke-dasharray="3,3"/>
+      <!-- Scenario B -->
+      <text x="200" y="100" font-size="11" fill="#1a5c2e" font-style="italic">Scenario B — Increases</text>
+      <text x="240" y="116" font-size="13" fill="#1a5c2e">Equity ↑ (signal effect)</text>
+    </svg>
+  </div>
+
+</div>
+
+  <div class="footnote">
+    Module 9 — Corporate Finance. Covers capital budgeting, the NPV rule, opportunity cost of capital, the objective of the financial manager (maximise current market value), and the market value balance sheet. Investment decisions are the focus of this course; financing and risk management are covered in the second course.
+  </div>
+
+  <!-- QUIZ -->
+  <div class="quiz-section">
+    <div class="quiz-header">
+      <span class="quiz-label">✦ Quiz</span>
+      <span class="quiz-title">Quick Check</span>
+    </div>
+
+    <!-- Q1 -->
+    <div class="quiz-q" id="q1">
+      <div class="quiz-q-text"><span class="quiz-q-num">Q1.</span> A project costs $100 today and is expected to return $110 next year. The opportunity cost of capital is 15%. Should the firm take the project?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answer(this,'q1',false)"><span class="opt-letter">A</span> Yes — the project returns more than the initial investment.</button>
+        <button class="quiz-option" onclick="answer(this,'q1',true)"><span class="opt-letter">B</span> No — the return (10%) is below the cost of capital (15%), so NPV is negative.</button>
+        <button class="quiz-option" onclick="answer(this,'q1',false)"><span class="opt-letter">C</span> Yes — any positive cash flow means the project is worthwhile.</button>
+      </div>
+      <div class="quiz-feedback" id="q1-fb"></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-q" id="q2">
+      <div class="quiz-q-text"><span class="quiz-q-num">Q2.</span> What is the main objective of the financial manager?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answer(this,'q2',false)"><span class="opt-letter">A</span> Maximise accounting profits reported in the income statement.</button>
+        <button class="quiz-option" onclick="answer(this,'q2',false)"><span class="opt-letter">B</span> Minimise the firm's costs of production.</button>
+        <button class="quiz-option" onclick="answer(this,'q2',true)"><span class="opt-letter">C</span> Maximise the current market value of the firm.</button>
+      </div>
+      <div class="quiz-feedback" id="q2-fb"></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-q" id="q3">
+      <div class="quiz-q-text"><span class="quiz-q-num">Q3.</span> A firm uses cash to build a factory with a positive NPV. What happens on the Market Value Balance Sheet?</div>
+      <div class="quiz-options">
+        <button class="quiz-option" onclick="answer(this,'q3',false)"><span class="opt-letter">A</span> No change — it is just an asset swap like in the regular balance sheet.</button>
+        <button class="quiz-option" onclick="answer(this,'q3',true)"><span class="opt-letter">B</span> Assets side increases (long-term assets rise by more than cash fell) and equity rises to match.</button>
+        <button class="quiz-option" onclick="answer(this,'q3',false)"><span class="opt-letter">C</span> Liabilities increase but assets remain the same.</button>
+      </div>
+      <div class="quiz-feedback" id="q3-fb"></div>
+    </div>
+
+    <div class="quiz-score" id="quiz-score"></div>
+    <button class="quiz-reset" id="reset-btn" onclick="resetQuiz()" style="display:none;">Reset Quiz</button>
+  </div>
+
+</div>
+
+<script>
+  const correct = { q1: 'B', q2: 'C', q3: 'B' };
+  const explanations = {
+    q1: { right: 'Correct. NPV = −100 + 110/1.15 = −100 + 95.65 = −$4.35. Negative NPV — reject the project.', wrong: 'Not quite. Even though $110 > $100, you must compare the return (10%) against the cost of capital (15%). The NPV is negative, so reject.' },
+    q2: { right: 'Correct. The main objective is to maximise current market value — it is unbiased, observable, and incorporates all future cash flows adjusted for timing and risk.', wrong: 'Not quite. Accounting profits ignore timing and risk. The correct objective is to maximise the current market value of the firm.' },
+    q3: { right: 'Correct. In the Market Value Balance Sheet, a positive-NPV project increases the value of long-term assets by more than the cash used, so total assets rise and equity rises to match.', wrong: 'Not quite. The Market Value Balance Sheet reflects the NPV gain. Long-term assets increase in value, equity rises — unlike the regular balance sheet where it is just an asset swap.' }
+  };
+
+  let answered = {};
+
+  function answer(btn, qid, isCorrect) {
+    if (answered[qid]) return;
+    answered[qid] = true;
+
+    const opts = btn.closest('.quiz-q').querySelectorAll('.quiz-option');
+    const fb = document.getElementById(qid + '-fb');
+
+    opts.forEach(o => {
+      o.disabled = true;
+      const letter = o.querySelector('.opt-letter').textContent.trim();
+      if (letter === correct[qid]) o.classList.add('reveal-correct');
+    });
+
+    if (isCorrect) {
+      btn.classList.add('correct');
+      fb.textContent = '✓ ' + explanations[qid].right;
+      fb.className = 'quiz-feedback show correct';
+    } else {
+      btn.classList.add('wrong');
+      fb.textContent = '✗ ' + explanations[qid].wrong;
+      fb.className = 'quiz-feedback show wrong';
+    }
+
+    if (Object.keys(answered).length === 3) showScore();
+  }
+
+  function showScore() {
+    const score = Object.values(answered).filter(Boolean).length;
+    // answered stores true/false per question
+    let s = 0;
+    document.querySelectorAll('.quiz-option.correct').forEach(() => s++);
+    // count via correct class
+    const correctCount = document.querySelectorAll('.quiz-option.correct:not(.reveal-correct)').length +
+      document.querySelectorAll('.quiz-option.reveal-correct.correct').length;
+
+    // simpler: count by checking which buttons have class 'correct' (not reveal-correct)
+    let finalScore = 0;
+    ['q1','q2','q3'].forEach(qid => {
+      const q = document.getElementById(qid);
+      if (q.querySelector('.quiz-option.correct')) finalScore++;
+    });
+
+    const el = document.getElementById('quiz-score');
+    el.textContent = 'You scored ' + finalScore + ' out of 3. ' +
+      (finalScore === 3 ? 'Excellent — you have mastered the basics of this module.' :
+       finalScore === 2 ? 'Good effort — review the question you missed.' :
+       'Keep reviewing the notes and try again.');
+    el.classList.add('show');
+    document.getElementById('reset-btn').style.display = 'block';
+  }
+
+  function resetQuiz() {
+    answered = {};
+    ['q1','q2','q3'].forEach(qid => {
+      const q = document.getElementById(qid);
+      q.querySelectorAll('.quiz-option').forEach(o => {
+        o.disabled = false;
+        o.classList.remove('correct','wrong','reveal-correct');
+      });
+      const fb = document.getElementById(qid + '-fb');
+      fb.className = 'quiz-feedback';
+      fb.textContent = '';
+    });
+    document.getElementById('quiz-score').classList.remove('show');
+    document.getElementById('reset-btn').style.display = 'none';
+  }
+</script>
+</body>
+</html>
